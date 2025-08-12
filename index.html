@@ -198,7 +198,7 @@
     #buscador {
       max-width: 700px;
       margin: 30px auto 50px auto;
-      background: rgb(0, 0, 0);
+      background: rgb(53, 143, 25);
       padding: 20px 30px;
       border-radius: 25px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -283,7 +283,7 @@
 
     /* Alojamientos */
     .alojamientos {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -384,7 +384,7 @@
 
     /* Mapa */
     .mapa-section {
-      max-width: 800px;
+      max-width: 550px;
       margin: 40px auto;
       padding: 0 20px;
     }
@@ -405,8 +405,8 @@
 
     /* Métodos de Pago */
     #medios-pago {
-      max-width: 1000px;
-      margin: 80px auto;
+      max-width: 550px;
+      margin: 40px auto;
       padding: 0 20px;
     }
     
@@ -414,7 +414,7 @@
       font-size: 2rem;
       font-weight: 700;
       color: #00796b;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     
     .pago-cards {
@@ -513,6 +513,7 @@
       height: 100%;
       overflow: auto;
       background-color: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
     }
     
     .modal.active {
@@ -525,12 +526,24 @@
       background: white;
       margin: 50px auto;
       padding: 20px;
-      border-radius: 8px;
+      border-radius: 20px;
       max-width: 90%;
       max-height: 80vh;
       overflow-y: auto;
       position: relative;
       box-sizing: border-box;
+      animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
     
     .modal-header {
@@ -538,29 +551,38 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #00c853;
     }
     
     .modal-header h2 {
       margin: 0;
-      font-size: 1.5em;
+      font-size: 1.8rem;
+      color: #00796b;
+      font-weight: 700;
     }
     
     .close,
     .modal-close {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: bold;
       cursor: pointer;
-      color: #333;
+      color: #666;
       user-select: none;
       border: none;
       background: transparent;
-      position: absolute;
-      top: 10px;
-      right: 15px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
     }
     
     .close:hover,
     .modal-close:hover {
+      background: #f0f0f0;
       color: #000;
     }
 
@@ -573,7 +595,7 @@
       width: 300px;
       text-align: center;
       position: relative;
-      color: white;
+      color: #333;
     }
     
     .currency-modal input,
@@ -589,28 +611,199 @@
       font-weight: bold;
     }
 
-    /* Modal alojamientos */
+    /* Modal alojamientos - Galería mejorada */
     .modal-images {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
     }
     
     .modal-images img {
-      width: 320px;
-      height: 220px;
+      width: 100%;
+      height: 250px;
       object-fit: cover;
-      border-radius: 6px;
+      border-radius: 15px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
     
     .modal-images img:hover {
       transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
-    /* Modal zoom */
+    /* Modal info adicional */
+    .modal-info {
+      padding: 1.5rem 0;
+    }
+    
+    .info-section {
+      margin-bottom: 2rem;
+    }
+    
+    .info-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #00796b;
+    }
+    
+    .info-text {
+      color: #555;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+    
+    .amenities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .amenity {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem;
+      background: #f8f9fa;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      border-left: 4px solid #00c853;
+      color: #333;
+    }
+
+    /* Image Viewer Styles - Visor avanzado */
+    .image-viewer {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .image-viewer-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .viewer-image {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      animation: imageZoomIn 0.3s ease-out;
+    }
+
+    @keyframes imageZoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .image-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .image-nav:hover {
+      background: rgba(255,255,255,1);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .image-nav.prev {
+      left: 20px;
+    }
+
+    .image-nav.next {
+      right: 20px;
+    }
+
+    .viewer-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #333;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .viewer-close:hover {
+      background: rgba(255,255,255,1);
+      transform: scale(1.1);
+    }
+
+    .image-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.9);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #333;
+      backdrop-filter: blur(10px);
+    }
+
+    .image-title {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(255,255,255,0.9);
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #333;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Modal zoom legacy - mantenemos compatibilidad */
     #modalZoom .modal-content {
       max-width: 90vw;
       max-height: 90vh;
@@ -740,6 +933,43 @@
         flex-direction: column;
         gap: 10px;
       }
+
+      .modal-images {
+        grid-template-columns: 1fr;
+      }
+
+      .amenities-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .image-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .image-nav.prev {
+        left: 10px;
+      }
+
+      .image-nav.next {
+        right: 10px;
+      }
+
+      .viewer-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
+
+      .image-title {
+        top: 10px;
+        left: 10px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
@@ -787,2369 +1017,757 @@
   </section>
 
   <!-- Buscador -->
-  <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de Alojamientos</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-             background: linear-gradient(135deg, #009639 0%, #FFDF00 35%, #FFDF00 65%, #009639 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        #buscador {
-            max-width: 600px;
-            margin: 50px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 600;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        input[readonly] {
-            cursor: pointer;
-            background: #f8f9fa;
-        }
-
-        input[readonly]:hover {
-            background: #e9ecef;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .error {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .error.show {
-            display: block;
-        }
-
-        /* Estilos del calendario */
-        .calendar {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            z-index: 1000;
-            display: none;
-            margin-top: 5px;
-        }
-
-        .calendar.show {
-            display: block;
-        }
-
-        .calendar-header {
-            background: #667eea;
-            color: white;
-            padding: 15px;
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .calendar-nav {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background 0.2s;
-        }
-
-        .calendar-nav:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .calendar-body {
-            padding: 15px;
-        }
-
-        .calendar-days {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            margin-bottom: 10px;
-        }
-
-        .calendar-day-header {
-            background: #f8f9fa;
-            padding: 10px 5px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .calendar-dates {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-        }
-
-        .calendar-date {
-            padding: 12px 5px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-
-        .calendar-date:hover {
-            background: #e3f2fd;
-        }
-
-        .calendar-date.disabled {
-            color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .calendar-date.disabled:hover {
-            background: none;
-        }
-
-        .calendar-date.selected {
-            background: #667eea;
-            color: white;
-        }
-
-        .calendar-date.today {
-            background: #ffc107;
-            color: white;
-            font-weight: bold;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            #buscador {
-                margin: 20px auto;
-                padding: 20px;
-            }
-            
-            h2 {
-                font-size: 24px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Buscador -->
-    <section id="buscador" aria-labelledby="tituloBuscador">
-        <h2 id="tituloBuscador">🏖️ Busca tu alojamiento ideal</h2>
-        <form id="searchForm" novalidate>
-            <div class="input-group">
-                <label for="nombre">Nombre y Apellido</label>
-                <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required aria-required="true" />
-                <span class="error" id="errorNombre">Por favor ingresa tu nombre y apellido</span>
-            </div>
-
-            <div class="input-group">
-                <label for="destino">Destino</label>
-                <select id="destino" name="destino" required aria-required="true">
-                    <option value="" disabled selected>Seleccione destino</option>
-                    <option value="Canasvieiras">Canasvieiras</option>
-                  
-                    
-                </select>
-                <span class="error" id="errorDestino">Por favor selecciona un destino</span>
-            </div>
-
-            <div class="input-group">
-                <label for="fechaIda">📅 Fecha de ida</label>
-                <input type="text" id="fechaIda" name="fechaIda" required aria-required="true" readonly placeholder="Selecciona fecha de ida" />
-                <div id="calendarIda" class="calendar">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav" id="prevMonthIda">‹</button>
-                        <span id="monthYearIda"></span>
-                        <button type="button" class="calendar-nav" id="nextMonthIda">›</button>
-                    </div>
-                    <div class="calendar-body">
-                        <div class="calendar-days">
-                            <div class="calendar-day-header">Dom</div>
-                            <div class="calendar-day-header">Lun</div>
-                            <div class="calendar-day-header">Mar</div>
-                            <div class="calendar-day-header">Mié</div>
-                            <div class="calendar-day-header">Jue</div>
-                            <div class="calendar-day-header">Vie</div>
-                            <div class="calendar-day-header">Sáb</div>
-                        </div>
-                        <div class="calendar-dates" id="datesIda"></div>
-                    </div>
-                </div>
-                <span class="error" id="errorFechaIda">Por favor selecciona una fecha de ida válida</span>
-            </div>
-
-            <div class="input-group">
-                <label for="fechaVuelta">📅 Fecha de vuelta</label>
-                <input type="text" id="fechaVuelta" name="fechaVuelta" required aria-required="true" readonly placeholder="Selecciona fecha de vuelta" />
-                <div id="calendarVuelta" class="calendar">
-                    <div class="calendar-header">
-                        <button type="button" class="calendar-nav" id="prevMonthVuelta">‹</button>
-                        <span id="monthYearVuelta"></span>
-                        <button type="button" class="calendar-nav" id="nextMonthVuelta">›</button>
-                    </div>
-                    <div class="calendar-body">
-                        <div class="calendar-days">
-                            <div class="calendar-day-header">Dom</div>
-                            <div class="calendar-day-header">Lun</div>
-                            <div class="calendar-day-header">Mar</div>
-                            <div class="calendar-day-header">Mié</div>
-                            <div class="calendar-day-header">Jue</div>
-                            <div class="calendar-day-header">Vie</div>
-                            <div class="calendar-day-header">Sáb</div>
-                        </div>
-                        <div class="calendar-dates" id="datesVuelta"></div>
-                    </div>
-                </div>
-                <span class="error" id="errorFechaVuelta">Por favor selecciona una fecha de vuelta válida</span>
-            </div>
-
-            <button type="submit" aria-label="Buscar viajes">
-                🔍 Buscar en WhatsApp
-            </button>
-        </form>
-    </section>
-
-    <script>
-        // Configuración
-        const WHATSAPP_NUMBER = '+54 9 11 4170-6765'; // Reemplaza con tu número de WhatsApp
-        
-        // Variables globales
-        let currentMonthIda = new Date().getMonth();
-        let currentYearIda = new Date().getFullYear();
-        let currentMonthVuelta = new Date().getMonth();
-        let currentYearVuelta = new Date().getFullYear();
-        let selectedDateIda = null;
-        let selectedDateVuelta = null;
-
-        // Nombres de los meses
-        const monthNames = [
-            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-        ];
-
-        // Inicializar calendarios
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeCalendars();
-            setupEventListeners();
-        });
-
-        function initializeCalendars() {
-            renderCalendar('Ida', currentMonthIda, currentYearIda);
-            renderCalendar('Vuelta', currentMonthVuelta, currentYearVuelta);
-        }
-
-        function setupEventListeners() {
-            // Event listeners para mostrar/ocultar calendarios
-            document.getElementById('fechaIda').addEventListener('click', () => {
-                showCalendar('Ida');
-            });
-
-            document.getElementById('fechaVuelta').addEventListener('click', () => {
-                showCalendar('Vuelta');
-            });
-
-            // Event listeners para navegación de calendarios
-            document.getElementById('prevMonthIda').addEventListener('click', () => {
-                changeMonth('Ida', -1);
-            });
-
-            document.getElementById('nextMonthIda').addEventListener('click', () => {
-                changeMonth('Ida', 1);
-            });
-
-            document.getElementById('prevMonthVuelta').addEventListener('click', () => {
-                changeMonth('Vuelta', -1);
-            });
-
-            document.getElementById('nextMonthVuelta').addEventListener('click', () => {
-                changeMonth('Vuelta', 1);
-            });
-
-            // Cerrar calendarios al hacer clic fuera
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.input-group')) {
-                    hideCalendars();
-                }
-            });
-
-            // Event listener para el formulario
-            document.getElementById('searchForm').addEventListener('submit', handleSubmit);
-        }
-
-        function showCalendar(type) {
-            hideCalendars();
-            document.getElementById(`calendar${type}`).classList.add('show');
-        }
-
-        function hideCalendars() {
-            document.getElementById('calendarIda').classList.remove('show');
-            document.getElementById('calendarVuelta').classList.remove('show');
-        }
-
-        function changeMonth(type, direction) {
-            if (type === 'Ida') {
-                currentMonthIda += direction;
-                if (currentMonthIda < 0) {
-                    currentMonthIda = 11;
-                    currentYearIda--;
-                } else if (currentMonthIda > 11) {
-                    currentMonthIda = 0;
-                    currentYearIda++;
-                }
-                renderCalendar('Ida', currentMonthIda, currentYearIda);
-            } else {
-                currentMonthVuelta += direction;
-                if (currentMonthVuelta < 0) {
-                    currentMonthVuelta = 11;
-                    currentYearVuelta--;
-                } else if (currentMonthVuelta > 11) {
-                    currentMonthVuelta = 0;
-                    currentYearVuelta++;
-                }
-                renderCalendar('Vuelta', currentMonthVuelta, currentYearVuelta);
-            }
-        }
-
-        function renderCalendar(type, month, year) {
-            const monthYearElement = document.getElementById(`monthYear${type}`);
-            const datesElement = document.getElementById(`dates${type}`);
-            
-            monthYearElement.textContent = `${monthNames[month]} ${year}`;
-            
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const today = new Date();
-            
-            let datesHTML = '';
-            
-            // Espacios en blanco para los días antes del primer día del mes
-            for (let i = 0; i < firstDay; i++) {
-                datesHTML += '<div class="calendar-date"></div>';
-            }
-            
-            // Días del mes
-            for (let day = 1; day <= daysInMonth; day++) {
-                const date = new Date(year, month, day);
-                const dateString = formatDate(date);
-                let classes = 'calendar-date';
-                
-                // Marcar el día actual
-                if (date.toDateString() === today.toDateString()) {
-                    classes += ' today';
-                }
-                
-                // Deshabilitar fechas pasadas
-                if (date < today.setHours(0,0,0,0)) {
-                    classes += ' disabled';
-                }
-                
-                // Marcar fecha seleccionada
-                if (type === 'Ida' && selectedDateIda && dateString === selectedDateIda) {
-                    classes += ' selected';
-                } else if (type === 'Vuelta' && selectedDateVuelta && dateString === selectedDateVuelta) {
-                    classes += ' selected';
-                }
-                
-                // Para fecha de vuelta, deshabilitar fechas anteriores a la fecha de ida
-                if (type === 'Vuelta' && selectedDateIda) {
-                    const idaDate = new Date(selectedDateIda.split('/').reverse().join('-'));
-                    if (date <= idaDate) {
-                        classes += ' disabled';
-                    }
-                }
-                
-                datesHTML += `<div class="${classes}" data-date="${dateString}" onclick="selectDate('${type}', '${dateString}')">${day}</div>`;
-            }
-            
-            datesElement.innerHTML = datesHTML;
-        }
-
-        function selectDate(type, dateString) {
-            const dateElement = document.querySelector(`#dates${type} [data-date="${dateString}"]`);
-            
-            if (dateElement.classList.contains('disabled')) {
-                return;
-            }
-            
-            if (type === 'Ida') {
-                selectedDateIda = dateString;
-                document.getElementById('fechaIda').value = dateString;
-                // Si hay una fecha de vuelta seleccionada y es anterior a la nueva fecha de ida, limpiarla
-                if (selectedDateVuelta) {
-                    const idaDate = new Date(dateString.split('/').reverse().join('-'));
-                    const vueltaDate = new Date(selectedDateVuelta.split('/').reverse().join('-'));
-                    if (vueltaDate <= idaDate) {
-                        selectedDateVuelta = null;
-                        document.getElementById('fechaVuelta').value = '';
-                    }
-                }
-                renderCalendar('Vuelta', currentMonthVuelta, currentYearVuelta);
-            } else {
-                selectedDateVuelta = dateString;
-                document.getElementById('fechaVuelta').value = dateString;
-            }
-            
-            renderCalendar(type, type === 'Ida' ? currentMonthIda : currentMonthVuelta, 
-                          type === 'Ida' ? currentYearIda : currentYearVuelta);
-            hideCalendars();
-        }
-
-        function formatDate(date) {
-            const day = date.getDate().toString().padStart(2, '0');
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
-
-        function validateForm() {
-            let isValid = true;
-            
-            // Validar nombre
-            const nombre = document.getElementById('nombre').value.trim();
-            if (!nombre) {
-                showError('errorNombre');
-                isValid = false;
-            } else {
-                hideError('errorNombre');
-            }
-            
-            // Validar destino
-            const destino = document.getElementById('destino').value;
-            if (!destino) {
-                showError('errorDestino');
-                isValid = false;
-            } else {
-                hideError('errorDestino');
-            }
-            
-            // Validar fecha de ida
-            if (!selectedDateIda) {
-                showError('errorFechaIda');
-                isValid = false;
-            } else {
-                hideError('errorFechaIda');
-            }
-            
-            // Validar fecha de vuelta
-            if (!selectedDateVuelta) {
-                showError('errorFechaVuelta');
-                isValid = false;
-            } else {
-                hideError('errorFechaVuelta');
-            }
-            
-            return isValid;
-        }
-
-        function showError(errorId) {
-            document.getElementById(errorId).classList.add('show');
-        }
-
-        function hideError(errorId) {
-            document.getElementById(errorId).classList.remove('show');
-        }
-
-        function handleSubmit(e) {
-            e.preventDefault();
-            
-            if (!validateForm()) {
-                return;
-            }
-            
-            // Obtener datos del formulario
-            const nombre = document.getElementById('nombre').value.trim();
-            const destino = document.getElementById('destino').value;
-            const fechaIda = selectedDateIda;
-            const fechaVuelta = selectedDateVuelta;
-            
-            // Crear mensaje para WhatsApp
-            const mensaje = `¡Hola! Estoy interesado en alojamiento.
-
-📋 *Datos de la consulta:*
-👤 Nombre: ${nombre}
-🏖️ Destino: ${destino}
-📅 Fecha de ida: ${fechaIda}
-📅 Fecha de vuelta: ${fechaVuelta}
-
-¿Podrían ayudarme con información y disponibilidad?
-
-¡Gracias!`;
-            
-            // Crear URL de WhatsApp
-            const whatsappURL = `https://wa.me/5491141706765?text=${encodeURIComponent(mensaje)}`;
-            
-            // Abrir WhatsApp
-            window.open(whatsappURL, '_blank');
-            
-            console.log('📱 Enviando a WhatsApp:', {
-                nombre,
-                destino,
-                fechaIda,
-                fechaVuelta
-            });
-        }
-    </script>
-</body>
-</html>
-
-  <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alojamientos en Canasvieiras</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #000000;
-            background-color: #ffffff;
-        }
-
-        .alojamientos {
-            padding: 50px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .alojamientos h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            color: #00796b;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: rgb(160, 160, 160);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover img {
-            transform: scale(1.05);
-        }
-
-        .card-content {
-            padding: 25px;
-        }
-
-        .card-content h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .card-content p {
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-
-        .precio {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #38a169 !important;
-            margin: 15px 0 !important;
-        }
-
-        .btn-reservar {
-            display: inline-block;
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: white;
-            text-decoration: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-reservar:hover {
-            background: linear-gradient(135deg, #128c7e, #075e54);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-        }
-
-        /* Estilos del Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            position: relative;
-            margin: 2% auto;
-            padding: 20px;
-            width: 90%;
-            max-width: 1000px;
-            background-color: white;
-            border-radius: 15px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            color: #aaa;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .close:hover {
-            color: #000;
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-            padding-right: 50px;
-        }
-
-        .modal-header h3 {
-            font-size: 2rem;
-            color: #2c5282;
-            margin-bottom: 10px;
-        }
-
-        .modal-info {
-            display: grid;
-            grid-template-columns: 1fr 200px;
-            gap: 20px;
-            align-items: start;
-        }
-
-        .modal-info p {
-            margin: 5px 0;
-            color: #666;
-        }
-
-        .modal-precio {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #38a169;
-        }
-
-        /* Galería de fotos */
-        .galeria {
-            margin: 30px 0;
-        }
-
-        .galeria h4 {
-            font-size: 1.5rem;
-            color: #2d3748;
-            margin-bottom: 20px;
-        }
-
-        .galeria-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .galeria-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid transparent;
-        }
-
-        .galeria-img:hover {
-            transform: scale(1.05);
-            border-color: #4299e1;
-            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
-        }
-
-        .imagen-principal {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 5px solid #e2e8f0;
-        }
-
-        .modal-btn-reservar {
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-weight: bold;
-            text-align: center;
-            display: inline-block;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
-
-        .modal-btn-reservar:hover {
-            background: linear-gradient(135deg, #128c7e, #075e54);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 5% auto;
-                width: 95%;
-                padding: 15px;
-            }
-
-            .modal-info {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .galeria-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Alojamientos -->
-    <section id="alojamientos" class="alojamientos">
-        <h2>Alojamientos en Canasvieiras</h2>
-        <div class="grid">
-            <!-- Alojamiento 1 -->
-            <div class="card" onclick="abrirModal(1)">
-                <img src="https://scontent.faep8-1.fna.fbcdn.net/v/t39.30808-6/496148472_4034742506783447_4759518565485461994_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEhlKXHYujFQIFlwjx8LQWHtAW-bh6YuXa0Bb5uHpi5dmOaYcVE7RA3UUHP9HuvH4XDsNNK27ZaG8v9bo81UvHj&_nc_ohc=5jovSSuL6DIQ7kNvwEsPsd6&_nc_oc=AdnDreVQPjEjmi4WmGLOQLDQ3tmjtRBIyVkRgr7uPOHGbPWFkv8zcjjwq38XcPBnP0s&_nc_zt=23&_nc_ht=scontent.faep8-1.fna&_nc_gid=MEWTCcO8C_t6651kiVcbXw&oh=00_AfUT_Gk64jvCsTdgfNglKL_H9iNXoecJ4Q7N04t2X6ngHw&oe=689AC261" alt="Alojamiento 1" />
-                <div class="card-content">
-                    <h3>Departamento frente al mar</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 80 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20frente%20al%20mar%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 2 -->
-            <div class="card" onclick="abrirModal(2)">
-                <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400" alt="Alojamiento 2" />
-                <div class="card-content">
-                    <h3>Apart para 4 personas</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 65 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20apart%20para%204%20personas%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 3 -->
-            <div class="card" onclick="abrirModal(3)">
-                <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400" alt="Alojamiento 3" />
-                <div class="card-content">
-                    <h3>Cabaña familiar</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 90 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20cabaña%20familiar%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 4 -->
-            <div class="card" onclick="abrirModal(4)">
-                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400" alt="Alojamiento 4" />
-                <div class="card-content">
-                    <h3>Loft moderno en el centro</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 75 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20loft%20moderno%20en%20el%20centro%20de%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 5 -->
-            <div class="card" onclick="abrirModal(5)">
-                <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=400" alt="Alojamiento 5" />
-                <div class="card-content">
-                    <h3>Casa con jardín y piscina</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 120 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20con%20jard%C3%ADn%20y%20piscina%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 6 -->
-            <div class="card" onclick="abrirModal(6)">
-                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=400" alt="Alojamiento 6" />
-                <div class="card-content">
-                    <h3>Departamento con vista al mar</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 85 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20con%20vista%20al%20mar%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 7 -->
-            <div class="card" onclick="abrirModal(7)">
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400" alt="Alojamiento 7" />
-                <div class="card-content">
-                    <h3>Casa cerca de la playa</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 110 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20cerca%20de%20la%20playa%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 8 -->
-            <div class="card" onclick="abrirModal(8)">
-                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400" alt="Alojamiento 8" />
-                <div class="card-content">
-                    <h3>Apartamento céntrico</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 70 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20apartamento%20c%C3%A9ntrico%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 9 -->
-            <div class="card" onclick="abrirModal(9)">
-                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400" alt="Alojamiento 9" />
-                <div class="card-content">
-                    <h3>Loft para parejas</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 60 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20loft%20para%20parejas%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 10 -->
-            <div class="card" onclick="abrirModal(10)">
-                <img src="https://images.unsplash.com/photo-1566908829077-2367ef5fffe8?w=400" alt="Alojamiento 10" />
-                <div class="card-content">
-                    <h3>Casa con piscina privada</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 130 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20con%20piscina%20privada%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 11 -->
-            <div class="card" onclick="abrirModal(11)">
-                <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400" alt="Alojamiento 11" />
-                <div class="card-content">
-                    <h3>Departamento amplio y luminoso</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 75 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20amplio%20y%20luminoso%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 12 -->
-            <div class="card" onclick="abrirModal(12)">
-                <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400" alt="Alojamiento 12" />
-                <div class="card-content">
-                    <h3>Monoambiente moderno</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 55 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20monoambiente%20moderno%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 13 -->
-            <div class="card" onclick="abrirModal(13)">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" alt="Alojamiento 13" />
-                <div class="card-content">
-                    <h3>Casa con terraza y parrilla</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 115 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20con%20terraza%20y%20parrilla%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 14 -->
-            <div class="card" onclick="abrirModal(14)">
-                <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=400" alt="Alojamiento 14" />
-                <div class="card-content">
-                    <h3>Apart hotel con servicios</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 80 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20apart%20hotel%20con%20servicios%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 15 -->
-            <div class="card" onclick="abrirModal(15)">
-                <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400" alt="Alojamiento 15" />
-                <div class="card-content">
-                    <h3>Departamento con balcón</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 68 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20con%20balc%C3%B3n%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
-
-            <!-- Alojamiento 16 -->
-            <div class="card" onclick="abrirModal(16)">
-                <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=400" alt="Alojamiento 16" />
-                <div class="card-content">
-                    <h3>Loft cerca de restaurantes</h3>
-                    <p>Canasvieiras, Florianópolis</p>
-                    <p class="precio">USD 62 / noche</p>
-                    <a class="btn-reservar" href="https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20loft%20cerca%20de%20restaurantes%20en%20Canasvieiras" target="_blank" onclick="event.stopPropagation()">Reservar por WhatsApp</a>
-                </div>
-            </div>
+  <section id="buscador">
+    <h2 style="color: #00796b;">Encuentra tu alojamiento ideal</h2>
+    <form id="searchForm">
+      <div class="input-group">
+        <label for="destino">Destino:</label>
+        <input type="text" id="destino" name="destino" value="Canasvieiras, Florianópolis" readonly>
+      </div>
+      
+      <div class="input-group">
+        <label for="checkin">Fecha de Ida:</label>
+        <input type="text" id="checkin" name="checkin" class="flatpickr-input" placeholder="Seleccionar fecha">
+        <div class="error" id="checkinError">Por favor selecciona una fecha de entrada</div>
+      </div>
+      
+      <div class="input-group">
+        <label for="checkout">Fecha de Vuelta:</label>
+        <input type="text" id="checkout" name="checkout" class="flatpickr-input" placeholder="Seleccionar fecha">
+        <div class="error" id="checkoutError">Por favor selecciona una fecha de salida</div>
+      </div>
+      
+      <div class="input-group">
+        <label for="huespedes">Huéspedes:</label>
+        <select id="huespedes" name="huespedes">
+          <option value="1">1 Huésped</option>
+          <option value="2" selected>2 Huéspedes</option>
+          <option value="3">3 Huéspedes</option>
+          <option value="4">4 Huéspedes</option>
+          <option value="5">5 Huéspedes</option>
+          <option value="6">6+ Huéspedes</option>
+        </select>
+      </div>
+      
+      <button type="submit">Buscar</button>
+    </form>
+  </section>
+
+  <!-- Alojamientos -->
+  <section id="alojamientos" class="alojamientos">
+    <h2>Alojamientos en Canasvieiras</h2>
+    
+    <div class="grid">
+      <div class="card" onclick="openAccommodationModal(1)">
+        <img src="https://scontent.faep8-1.fna.fbcdn.net/v/t39.30808-6/527630057_4123138971277133_3834519890008957486_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEc-UG6igqLJtBANDuNYgPI7_bFKgOpl6jv9sUqA6mXqNRuO7V8n-3EoMIQwx6WjiWKytN45Rv9N6f4uf3gtwbk&_nc_ohc=k7xq8xBYWZcQ7kNvwHMpL78&_nc_oc=Adn23DYIjx5Kcr_y3YB2DTD4-p31GYmAAbAJnCD52pvgkDxtuqJ8gey1DDWpVNTryL4&_nc_zt=23&_nc_ht=scontent.faep8-1.fna&_nc_gid=9PXpJr49Bev9rqTgDsCwkw&oh=00_AfV7XDxrAcuHT7GmawyCZfGMVQRyVAzND3KPBpRuRAi54A&oe=68A186EB" alt="Casa Vista al Mar">
+        <div class="card-content">
+          <h3>Casa Vista al Mar</h3>
+          <p>📍 A 50m de la playa de Canasvieiras</p>
+          <p>🏠 Casa completa • 👥 6 huéspedes • 🛏️ 3 dormitorios</p>
+          <p class="precio">R$ 280/noche</p>
+          <a href="https://wa.me/541141706765?text=Hola%20Esmeralda,%20me%20interesa%20la%20Casa%20Vista%20al%20Mar%20en%20Canasvieiras" 
+             class="btn-reservar" 
+             target="_blank" 
+             onclick="event.stopPropagation();">
+            Reservar por WhatsApp
+          </a>
         </div>
-    </section>
+      </div>
 
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-header">
-                <h3 id="modal-titulo"></h3>
-                <div class="modal-info">
-                    <div>
-                        <p id="modal-ubicacion"></p>
-                        <p id="modal-descripcion"></p>
-                    </div>
-                    <p id="modal-precio" class="modal-precio"></p>
-                </div>
-            </div>
-
-            <img id="imagen-principal" class="imagen-principal" src="" alt="">
-
-            <div class="galeria">
-                <h4>Galería de fotos</h4>
-                <div id="galeria-grid" class="galeria-grid"></div>
-            </div>
-
-            <a id="modal-reservar" class="modal-btn-reservar" href="" target="_blank">Reservar por WhatsApp</a>
+      <div class="card" onclick="openAccommodationModal(2)">
+        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Apartamento Moderno">
+        <div class="card-content">
+          <h3>Apartamento Moderno</h3>
+          <p>📍 Centro de Canasvieiras</p>
+          <p>🏢 Apartamento • 👥 4 huéspedes • 🛏️ 2 dormitorios</p>
+          <p class="precio">R$ 190/noche</p>
+          <a href="https://wa.me/541141706765?text=Hola%20Esmeralda,%20me%20interesa%20el%20Apartamento%20Moderno%20en%20Canasvieiras" 
+             class="btn-reservar" 
+             target="_blank" 
+             onclick="event.stopPropagation();">
+            Reservar por WhatsApp
+          </a>
         </div>
+      </div>
+
+      <div class="card" onclick="openAccommodationModal(3)">
+        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Villa Tropical">
+        <div class="card-content">
+          <h3>Villa Tropical</h3>
+          <p>📍 Frente al mar, Canasvieiras</p>
+          <p>🏖️ Villa • 👥 8 huéspedes • 🛏️ 4 dormitorios</p>
+          <p class="precio">R$ 450/noche</p>
+          <a href="https://wa.me/541141706765?text=Hola%20Esmeralda,%20me%20interesa%20la%20Villa%20Tropical%20en%20Canasvieiras" 
+             class="btn-reservar" 
+             target="_blank" 
+             onclick="event.stopPropagation();">
+            Reservar por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="card" onclick="openAccommodationModal(4)">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Estudio Acogedor">
+        <div class="card-content">
+          <h3>Estudio Acogedor</h3>
+          <p>📍 A 100m de la playa</p>
+          <p>🏠 Estudio • 👥 2 huéspedes • 🛏️ 1 dormitorio</p>
+          <p class="precio">R$ 120/noche</p>
+          <a href="https://wa.me/541141706765?text=Hola%20Esmeralda,%20me%20interesa%20el%20Estudio%20Acogedor%20en%20Canasvieiras" 
+             class="btn-reservar" 
+             target="_blank" 
+             onclick="event.stopPropagation();">
+            Reservar por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="card" onclick="openAccommodationModal(5)">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Penthouse Deluxe">
+        <div class="card-content">
+          <h3>Penthouse Deluxe</h3>
+          <p>📍 Vista panorámica del mar</p>
+          <p>🏢 Penthouse • 👥 10 huéspedes • 🛏️ 5 dormitorios</p>
+          <p class="precio">R$ 680/noche</p>
+          <a href="https://wa.me/541141706765?text=Hola%20Esmeralda,%20me%20interesa%20el%20Penthouse%20Deluxe%20en%20Canasvieiras" 
+             class="btn-reservar" 
+             target="_blank" 
+             onclick="event.stopPropagation();">
+            Reservar por WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="card" onclick="openAccommodationModal(6)">
+        <img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Casa Familiar">
+        <div class="card-content">
+          <h3>Casa Familiar</h3>
+          <p>📍 Barrio tranquilo, Canasvieiras</p>
+          <p>🏠 Casa • 👥 7 huéspedes • 🛏️ 3 dormitorios</p>
+          <p class="precio">R$ 220/noche</p>
+          <a href="https://wa.me/541141706765?text=Hola%20Esmeralda,%20me%20interesa%20la%20Casa%20Familiar%20en%20Canasvieiras" 
+             class="btn-reservar" 
+             target="_blank" 
+             onclick="event.stopPropagation();">
+            Reservar por WhatsApp
+          </a>
+        </div>
+      </div>
     </div>
-
-    <script>
-        // Datos de los alojamientos con sus galerías de fotos
-        const alojamientos = {
-            1: {
-                titulo: "Departamento frente al mar",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 80 / noche",
-                descripcion: "Hermoso departamento con vista directa al mar. Ideal para parejas o familias pequeñas que buscan relajarse frente a la playa.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20frente%20al%20mar%20en%20Canasvieiras",
-                fotos: [
-                    "https://scontent.faep8-1.fna.fbcdn.net/v/t39.30808-6/496148472_4034742506783447_4759518565485461994_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEhlKXHYujFQIFlwjx8LQWHtAW-bh6YuXa0Bb5uHpi5dmOaYcVE7RA3UUHP9HuvH4XDsNNK27ZaG8v9bo81UvHj&_nc_ohc=5jovSSuL6DIQ7kNvwEsPsd6&_nc_oc=AdnDreVQPjEjmi4WmGLOQLDQ3tmjtRBIyVkRgr7uPOHGbPWFkv8zcjjwq38XcPBnP0s&_nc_zt=23&_nc_ht=scontent.faep8-1.fna&_nc_gid=MEWTCcO8C_t6651kiVcbXw&oh=00_AfUT_Gk64jvCsTdgfNglKL_H9iNXoecJ4Q7N04t2X6ngHw&oe=689AC261",
-                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500",
-                    "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=500",
-                    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500",
-                    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500"
-                ]
-            },
-            2: {
-                titulo: "Apart para 4 personas",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 65 / noche",
-                descripcion: "Apartamento espacioso y cómodo para hasta 4 personas. Completamente equipado con todas las comodidades necesarias.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20apart%20para%204%20personas%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500",
-                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500",
-                    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=500",
-                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500"
-                ]
-            },
-            3: {
-                titulo: "Cabaña familiar",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 90 / noche",
-                descripcion: "Acogedora cabaña perfecta para familias. Ambiente rústico y cálido con todas las comodidades modernas.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20cabaña%20familiar%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500",
-                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500",
-                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500",
-                    "https://images.unsplash.com/photo-1499916078039-922301b0eb9b?w=500"
-                ]
-            },
-            4: {
-                titulo: "Loft moderno en el centro",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 75 / noche",
-                descripcion: "Loft contemporáneo ubicado en el corazón de Canasvieiras. Diseño moderno y funcional, perfecto para huéspedes exigentes.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20loft%20moderno%20en%20el%20centro%20de%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500",
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500",
-                    "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500",
-                    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=500"
-                ]
-            },
-            5: {
-                titulo: "Casa con jardín y piscina",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 120 / noche",
-                descripcion: "Hermosa casa con amplio jardín y piscina privada. Ideal para familias grandes que buscan privacidad y comodidad.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20con%20jard%C3%ADn%20y%20piscina%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=500",
-                    "https://images.unsplash.com/photo-1566908829077-2367ef5fffe8?w=500",
-                    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500",
-                    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500",
-                    "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=500"
-                ]
-            },
-            6: {
-                titulo: "Departamento con vista al mar",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 85 / noche",
-                descripcion: "Departamento con impresionante vista panorámica al mar. Balcón privado para disfrutar de los atardeceres.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20con%20vista%20al%20mar%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500",
-                    "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=500",
-                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500",
-                    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500"
-                ]
-            },
-            7: {
-                titulo: "Casa cerca de la playa",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 110 / noche",
-                descripcion: "Casa familiar a solo 2 cuadras de la playa. Perfecta para quienes buscan comodidad y proximidad al mar.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20cerca%20de%20la%20playa%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500",
-                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500",
-                    "https://images.unsplash.com/photo-1499916078039-922301b0eb9b?w=500",
-                    "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500"
-                ]
-            },
-            8: {
-                titulo: "Apartamento céntrico",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 70 / noche",
-                descripcion: "Apartamento en la zona más céntrica de Canasvieiras. Cerca de restaurantes, comercios y entretenimiento.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20apartamento%20c%C3%A9ntrico%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500",
-                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500",
-                    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=500",
-                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500"
-                ]
-            },
-            9: {
-                titulo: "Loft para parejas",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 60 / noche",
-                descripcion: "Loft romántico diseñado especialmente para parejas. Ambiente íntimo y acogedor con todas las comodidades.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20loft%20para%20parejas%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500",
-                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500",
-                    "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500",
-                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500"
-                ]
-            },
-            10: {
-                titulo: "Casa con piscina privada",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 130 / noche",
-                descripcion: "Espectacular casa con piscina privada y área de entretenimiento. Perfecta para grupos grandes y celebraciones.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20con%20piscina%20privada%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1566908829077-2367ef5fffe8?w=500",
-                    "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=500",
-                    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500",
-                    "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=500",
-                    "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500"
-                ]
-            },
-            11: {
-                titulo: "Departamento amplio y luminoso",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 75 / noche",
-                descripcion: "Departamento con excelente iluminación natural y espacios amplios. Ideal para estadías prolongadas.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20amplio%20y%20luminoso%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500",
-                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500",
-                    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500",
-                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500"
-                ]
-            },
-            12: {
-                titulo: "Monoambiente moderno",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 55 / noche",
-                descripcion: "Monoambiente compacto y funcional con diseño moderno. Perfecto para viajeros independientes.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20monoambiente%20moderno%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=500",
-                    "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500",
-                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500",
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500"
-                ]
-            },
-            13: {
-                titulo: "Casa con terraza y parrilla",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 115 / noche",
-                descripcion: "Casa con amplia terraza y parrilla para asados. Ideal para reuniones familiares y con amigos.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20la%20casa%20con%20terraza%20y%20parrilla%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500",
-                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500",
-                    "https://images.unsplash.com/photo-1499916078039-922301b0eb9b?w=500",
-                    "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500"
-                ]
-            },
-            14: {
-                titulo: "Apart hotel con servicios",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 80 / noche",
-                descripcion: "Apart hotel con servicios incluidos como limpieza diaria y recepción 24 horas. Comodidad hotelera con privacidad de apartamento.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20apart%20hotel%20con%20servicios%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=500",
-                    "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500",
-                    "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500",
-                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500"
-                ]
-            },
-            15: {
-                titulo: "Departamento con balcón",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 68 / noche",
-                descripcion: "Departamento con hermoso balcón para disfrutar del aire libre. Vista agradable y espacios bien distribuidos.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20departamento%20con%20balc%C3%B3n%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=500",
-                    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500",
-                    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=500",
-                    "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500"
-                ]
-            },
-            16: {
-                titulo: "Loft cerca de restaurantes",
-                ubicacion: "Canasvieiras, Florianópolis",
-                precio: "USD 62 / noche",
-                descripcion: "Loft estratégicamente ubicado cerca de los mejores restaurantes y vida nocturna de Canasvieiras.",
-                whatsapp: "https://wa.me/541141706765?text=Hola%20Esmeralda%2C%20quiero%20reservar%20el%20loft%20cerca%20de%20restaurantes%20en%20Canasvieiras",
-                fotos: [
-                    "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=500",
-                    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500",
-                    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500",
-                    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=500"
-                ]
-            }
-        };
-
-        let imagenPrincipalActual = 0;
-
-        function abrirModal(id) {
-            const modal = document.getElementById('modal');
-            const alojamiento = alojamientos[id];
-            
-            // Llenar la información del modal
-            document.getElementById('modal-titulo').textContent = alojamiento.titulo;
-            document.getElementById('modal-ubicacion').textContent = alojamiento.ubicacion;
-            document.getElementById('modal-precio').textContent = alojamiento.precio;
-            document.getElementById('modal-descripcion').textContent = alojamiento.descripcion;
-            document.getElementById('modal-reservar').href = alojamiento.whatsapp;
-            
-            // Establecer imagen principal
-            const imagenPrincipal = document.getElementById('imagen-principal');
-            imagenPrincipal.src = alojamiento.fotos[0];
-            imagenPrincipalActual = 0;
-            
-            // Crear galería de fotos
-            const galeriaGrid = document.getElementById('galeria-grid');
-            galeriaGrid.innerHTML = '';
-            
-            alojamiento.fotos.forEach((foto, index) => {
-                const img = document.createElement('img');
-                img.src = foto;
-                img.alt = `Foto ${index + 1} del ${alojamiento.titulo}`;
-                img.className = 'galeria-img';
-                img.onclick = () => cambiarImagenPrincipal(foto, index);
-                galeriaGrid.appendChild(img);
-            });
-            
-            // Mostrar modal
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-        }
-
-        function cambiarImagenPrincipal(src, index) {
-            document.getElementById('imagen-principal').src = src;
-            imagenPrincipalActual = index;
-            
-            // Opcional: Agregar efecto visual a la imagen seleccionada
-            const imagenes = document.querySelectorAll('.galeria-img');
-            imagenes.forEach(img => img.style.border = '3px solid transparent');
-            imagenes[index].style.border = '3px solid #4299e1';
-        }
-
-        // Cerrar modal
-        document.querySelector('.close').onclick = function() {
-            document.getElementById('modal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restaurar scroll del body
-        };
-
-        // Cerrar modal al hacer clic fuera del contenido
-        window.onclick = function(event) {
-            const modal = document.getElementById('modal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        };
-
-        // Navegación con teclas (opcional)
-        document.addEventListener('keydown', function(e) {
-            const modal = document.getElementById('modal');
-            if (modal.style.display === 'block') {
-                if (e.key === 'Escape') {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-                // Agregar navegación con flechas para cambiar fotos
-                else if (e.key === 'ArrowRight') {
-                    const modalTitulo = document.getElementById('modal-titulo').textContent;
-                    const alojamiento = Object.values(alojamientos).find(a => a.titulo === modalTitulo);
-                    if (alojamiento && imagenPrincipalActual < alojamiento.fotos.length - 1) {
-                        cambiarImagenPrincipal(alojamiento.fotos[imagenPrincipalActual + 1], imagenPrincipalActual + 1);
-                    }
-                }
-                else if (e.key === 'ArrowLeft') {
-                    const modalTitulo = document.getElementById('modal-titulo').textContent;
-                    const alojamiento = Object.values(alojamientos).find(a => a.titulo === modalTitulo);
-                    if (alojamiento && imagenPrincipalActual > 0) {
-                        cambiarImagenPrincipal(alojamiento.fotos[imagenPrincipalActual - 1], imagenPrincipalActual - 1);
-                    }
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+  </section>
 
   <!-- Mapa -->
   <section class="mapa-section">
-    <h2>Mapa de Florianópolis, Brasil</h2>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.927482950288!2d-48.5521613846023!3d-27.595374982805622!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb7b2f61f3c5e313%3A0x7806db4e47018a07!2sFlorian%C3%B3polis%2C%20Santa%20Catarina%2C%20Brasil!5e0!3m2!1ses!2sus!4v1691525300955!5m2!1ses!2sus"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      aria-label="Mapa de Florianópolis, Brasil">
+    <h2>Ubicación - Canasvieiras, Florianópolis</h2>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14376.123456789012!2d-48.46!3d-27.42!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDI1JzEyLjAiUyA0OMKwMjcnMzYuMCJX!5e0!3m2!1ses!2sar!4v1234567890"
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
     </iframe>
   </section>
 
+<!-- Métodos de Pago -->
+<section id="medios-pago">
+    <h2>Métodos de Pago Aceptados</h2>
+    <div class="pago-cards">
+        <div class="pago-card" id="mercadoPago" onclick="openPaymentModal()">
+            <div style="width: 60px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; position: relative; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); margin: 0 auto 15px;">
+                <div style="position: absolute; top: 8px; left: 8px; width: 8px; height: 6px; background: #ffd700; border-radius: 2px;"></div>
+                <div style="position: absolute; bottom: 6px; left: 8px; right: 8px; height: 2px; background: rgba(255,255,255,0.6); border-radius: 1px;"></div>
+            </div>
+            <p>Mercado Pago</p>
+        </div>
+    </div>
+</section>
 
   <!-- Contacto -->
-  <section id="contacto" aria-labelledby="tituloContacto" class="contact-section">
-    <h2 id="tituloContacto" class="section-title">Contacto</h2>
-    <p>Consultas y reservas con:</p>
-    <p><strong>Esmeralda Rosa</strong></p>
-
-    <p>
-      <a href="https://wa.me/541141706765" target="_blank" rel="noopener" aria-label="Enviar mensaje por WhatsApp a Esmeralda Rosa">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="WhatsApp" />
-        <strong>Celular:</strong>
-        <span>+54 9 11 4170-6765</span>
-      </a>
+<section id="contacto" class="contact-section">
+    <p style="display: flex; align-items: center; margin-bottom: 15px;">
+        <span style="width: 30px; height: 30px; background: #25D366; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px;">
+            <svg width="18" height="18" fill="white" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.525 3.488"/>
+            </svg>
+        </span>
+        Celular: <a href="tel:+541141706765">+54 11 4170-6765</a>
     </p>
-
-    <a href="https://www.facebook.com/esmeralda.machado.455141" target="_blank" rel="noopener" aria-label="Ir al perfil de Facebook de Esmeralda Rosa">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" />
-      <span>Facebook: Esmeralda Rosa</span>
-    </a>
-
-    <p>
-      <a href="mailto:meirirosa07@gmail.com?subject=Reserva%20Florianopolis%20Canasvieiras&body=Hola%20Esmeralda%20Rosa,%20quiero%20reservar%20para%20Florianopolis%20Canasvieiras.%20Gracias." target="_blank" rel="noopener" aria-label="Enviar email a Esmeralda Rosa con mensaje automático">
-        <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Gmail" />
-        <strong>Email:</strong>
-        <span style="text-decoration: underline;">meirirosa07@gmail.com</span>
-      </a>
+    
+    <p style="display: flex; align-items: center; margin-bottom: 15px;">
+        <span style="width: 30px; height: 30px; background: #1877f2; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px;">
+            <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                <path d="M15.5 8.5H13.5C13.2239 8.5 13 8.72386 13 9V11H15.5V13H13V20H11V13H9V11H11V8.5C11 7.39543 11.8954 6.5 13 6.5H15.5V8.5Z"/>
+            </svg>
+        </span>
+        Facebook: <a href="https://www.facebook.com/esmeralda.machado.455141" target="_blank">Esmeralda Rosa</a>
     </p>
-  </section>
+    
+    <p style="display: flex; align-items: center;">
+        <span style="width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 18px;">✉️</span>
+        Email: <a href="mailto:meirirosa07@gmail.com">meirirosa07@gmail.com</a>
+    </p>
+</section>
 
-  <!-- Modal convertidor de moneda -->
+  <!-- Modales de Alojamientos -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Casa Vista al Mar</h2>
+        <span class="close" onclick="closeAccommodationModal(1)">&times;</span>
+      </div>
+      <div class="modal-images">
+        <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Exterior" onclick="openImageViewer(this, 1, 0)">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sala de estar" onclick="openImageViewer(this, 1, 1)">
+        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dormitorio principal" onclick="openImageViewer(this, 1, 2)">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cocina" onclick="openImageViewer(this, 1, 3)">
+      </div>
+      <div class="modal-info">
+        <div class="info-section">
+          <h4 class="info-title">Descripción</h4>
+          <p class="info-text">Hermosa casa con vista directa al mar, ubicada a solo 50 metros de la playa de Canasvieiras. Perfecta para familias que buscan comodidad y proximidad al océano.</p>
+        </div>
+        <div class="info-section">
+          <h4 class="info-title">Comodidades</h4>
+          <div class="amenities-grid">
+            <div class="amenity">🏖️ Acceso directo a la playa</div>
+            <div class="amenity">🌊 Vista al mar</div>
+            <div class="amenity">🍳 Cocina completa</div>
+            <div class="amenity">📶 WiFi gratis</div>
+            <div class="amenity">🚗 Estacionamiento</div>
+            <div class="amenity">🏊 Piscina privada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Apartamento Moderno</h2>
+        <span class="close" onclick="closeAccommodationModal(2)">&times;</span>
+      </div>
+      <div class="modal-images">
+        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Exterior del edificio" onclick="openImageViewer(this, 2, 0)">
+        <img src="https://images.unsplash.com/photo-1556020685-ae41abfc9365?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sala moderna" onclick="openImageViewer(this, 2, 1)">
+        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dormitorio" onclick="openImageViewer(this, 2, 2)">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Cocina integrada" onclick="openImageViewer(this, 2, 3)">
+      </div>
+      <div class="modal-info">
+        <div class="info-section">
+          <h4 class="info-title">Descripción</h4>
+          <p class="info-text">Apartamento moderno y completamente equipado en el corazón de Canasvieiras. Ideal para parejas o familias pequeñas que buscan comodidad y estilo contemporáneo.</p>
+        </div>
+        <div class="info-section">
+          <h4 class="info-title">Comodidades</h4>
+          <div class="amenities-grid">
+            <div class="amenity">🏢 Edificio moderno</div>
+            <div class="amenity">🛗 Ascensor</div>
+            <div class="amenity">🍳 Cocina equipada</div>
+            <div class="amenity">📶 WiFi de alta velocidad</div>
+            <div class="amenity">❄️ Aire acondicionado</div>
+            <div class="amenity">🧺 Lavandería</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal3" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Villa Tropical</h2>
+        <span class="close" onclick="closeAccommodationModal(3)">&times;</span>
+      </div>
+      <div class="modal-images">
+        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Villa exterior" onclick="openImageViewer(this, 3, 0)">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sala espaciosa" onclick="openImageViewer(this, 3, 1)">
+        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Suite principal" onclick="openImageViewer(this, 3, 2)">
+        <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Piscina y jardín" onclick="openImageViewer(this, 3, 3)">
+      </div>
+      <div class="modal-info">
+        <div class="info-section">
+          <h4 class="info-title">Descripción</h4>
+          <p class="info-text">Villa de lujo frente al mar con piscina privada y jardín tropical. El alojamiento perfecto para grupos grandes que buscan privacidad y exclusividad.</p>
+        </div>
+        <div class="info-section">
+          <h4 class="info-title">Comodidades</h4>
+          <div class="amenities-grid">
+            <div class="amenity">🏖️ Frente al mar</div>
+            <div class="amenity">🏊 Piscina privada</div>
+            <div class="amenity">🌴 Jardín tropical</div>
+            <div class="amenity">🍖 Parrilla/BBQ</div>
+            <div class="amenity">🚗 Garaje privado</div>
+            <div class="amenity">🛁 Jacuzzi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal4" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Estudio Acogedor</h2>
+        <span class="close" onclick="closeAccommodationModal(4)">&times;</span>
+      </div>
+      <div class="modal-images">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Estudio completo" onclick="openImageViewer(this, 4, 0)">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Área de descanso" onclick="openImageViewer(this, 4, 1)">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kitchenette" onclick="openImageViewer(this, 4, 2)">
+        <img src="https://images.unsplash.com/photo-1584622781564-1d987ba6daa3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Baño moderno" onclick="openImageViewer(this, 4, 3)">
+      </div>
+      <div class="modal-info">
+        <div class="info-section">
+          <h4 class="info-title">Descripción</h4>
+          <p class="info-text">Estudio compacto pero completamente funcional, perfecto para parejas. Ubicación estratégica cerca de la playa y servicios locales.</p>
+        </div>
+        <div class="info-section">
+          <h4 class="info-title">Comodidades</h4>
+          <div class="amenities-grid">
+            <div class="amenity">🏠 Estudio completo</div>
+            <div class="amenity">🍳 Kitchenette</div>
+            <div class="amenity">📶 WiFi incluido</div>
+            <div class="amenity">❄️ Aire acondicionado</div>
+            <div class="amenity">🚲 Bicicletas disponibles</div>
+            <div class="amenity">🧺 Servicio de limpieza</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal5" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Penthouse Deluxe</h2>
+        <span class="close" onclick="closeAccommodationModal(5)">&times;</span>
+      </div>
+      <div class="modal-images">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Penthouse vista" onclick="openImageViewer(this, 5, 0)">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sala de lujo" onclick="openImageViewer(this, 5, 1)">
+        <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Master suite" onclick="openImageViewer(this, 5, 2)">
+        <img src="https://images.unsplash.com/photo-1574180566232-aaad1b5b8450?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Terraza panorámica" onclick="openImageViewer(this, 5, 3)">
+      </div>
+      <div class="modal-info">
+        <div class="info-section">
+          <h4 class="info-title">Descripción</h4>
+          <p class="info-text">Penthouse de lujo con vista panorámica al mar y la ciudad. Diseño exclusivo con las mejores comodidades para una experiencia inolvidable en Florianópolis.</p>
+        </div>
+        <div class="info-section">
+          <h4 class="info-title">Comodidades</h4>
+          <div class="amenities-grid">
+            <div class="amenity">🌊 Vista panorámica 360°</div>
+            <div class="amenity">🍾 Bar privado</div>
+            <div class="amenity">🛁 Jacuzzi en terraza</div>
+            <div class="amenity">🏋️ Gym privado</div>
+            <div class="amenity">👨‍🍳 Servicio de chef</div>
+            <div class="amenity">🚁 Helipuerto cercano</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal6" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Casa Familiar</h2>
+        <span class="close" onclick="closeAccommodationModal(6)">&times;</span>
+      </div>
+      <div class="modal-images">
+        <img src="https://images.unsplash.com/photo-1587061949409-02df41d5e562?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Casa familiar" onclick="openImageViewer(this, 6, 0)">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sala familiar" onclick="openImageViewer(this, 6, 1)">
+        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Habitación infantil" onclick="openImageViewer(this, 6, 2)">
+        <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Patio trasero" onclick="openImageViewer(this, 6, 3)">
+      </div>
+      <div class="modal-info">
+        <div class="info-section">
+          <h4 class="info-title">Descripción</h4>
+          <p class="info-text">Casa familiar ideal para vacaciones en grupo. Ubicada en un barrio tranquilo con fácil acceso a la playa y todas las comodidades para una estadía perfecta.</p>
+        </div>
+        <div class="info-section">
+          <h4 class="info-title">Comodidades</h4>
+          <div class="amenities-grid">
+            <div class="amenity">👨‍👩‍👧‍👦 Perfecta para familias</div>
+            <div class="amenity">🏡 Patio privado</div>
+            <div class="amenity">🍖 Área de parrilla</div>
+            <div class="amenity">🎮 Área de juegos</div>
+            <div class="amenity">🚗 Estacionamiento seguro</div>
+            <div class="amenity">🧺 Lavandería completa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Convertidor de Moneda -->
   <div id="currencyModal" class="modal currency-modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Convertir ARS a BRL</h2>
-      <input type="number" id="arsInput" placeholder="Pesos argentinos (ARS)">
-      <button onclick="convert()">Convertir</button>
+      <span class="close" onclick="closeCurrencyModal()">&times;</span>
+      <h3 style="color: #00796b;">Convertidor ARS a BRL</h3>
+      <input type="number" id="arsAmount" placeholder="Cantidad en ARS" step="0.01">
+      <button onclick="convertCurrency()">Convertir</button>
       <div id="result"></div>
     </div>
   </div>
 
-  <!-- Modal general para mostrar imágenes de alojamientos -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle" tabindex="-1">
-    <div class="modal-content" role="document">
-      <div class="modal-header">
-        <h2 id="modalTitle"></h2>
-        <span class="close" tabindex="0" role="button" aria-label="Cerrar modal" onclick="cerrarModal()">&times;</span>
-      </div>
-      <div class="modal-images" id="modalImages"></div>
+  <!-- Modal info Mercado Pago -->
+  <div id="paymentModal" class="modal modal-pago">
+    <div class="modal-content">
+      <span class="close" onclick="closePaymentModal()">&times;</span>
+      <h3>Mercado Pago</h3>
+      <p> 👤 Nombre: Esmeralda Rosa</p>
+      <p> 🏷️ Alias: nube.buzo.clip.mp </p>
+      <p> 🔢 CVU: 0000003100072453707270</p>
+      
     </div>
+
   </div>
 
-  <!-- Modal zoom para imagen individual -->
-  <div id="modalZoom" class="modal" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
-    <div class="modal-content" role="document">
-      <span class="close" tabindex="0" role="button" aria-label="Cerrar zoom" onclick="cerrarModalZoom()">&times;</span>
-      <img id="zoomImg" src="" alt="Imagen ampliada" />
+  <!-- Image Viewer -->
+  <div id="imageViewer" class="image-viewer">
+    <div class="image-viewer-content">
+      <img id="viewerImage" src="" alt="" class="viewer-image">
+      <button class="image-nav prev" onclick="previousImage()">‹</button>
+      <button class="image-nav next" onclick="nextImage()">›</button>
+      <button class="viewer-close" onclick="closeImageViewer()">×</button>
+      <div id="imageCounter" class="image-counter"></div>
+      <div id="imageTitle" class="image-title"></div>
     </div>
   </div>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modal Mercado Pago</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        /* Estilos para la sección de métodos de pago */
-        #medios-pago {
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #58ac63 0%, #58ac63 100%);
-            text-align: center;
-        }
-
-        #medios-pago h2 {
-            font-size: 2.5em;
-            color: #ffffff;
-            margin-bottom: 40px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .pago-cards {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .pago-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            width: 280px;
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .pago-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
-        }
-
-        .pago-card:hover::before {
-            left: 100%;
-        }
-
-        .pago-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .pago-card img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            transition: transform 0.3s ease;
-        }
-
-        .pago-card:hover img {
-            transform: scale(1.1);
-        }
-
-        .pago-card p {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2d3436;
-            margin: 0;
-            text-align: center;
-        }
-
-        #mercadoPago {
-            border: 3px solid transparent;
-            background: linear-gradient(white, white) padding-box,
-                        linear-gradient(135deg, #009ee3, #0087d1) border-box;
-        }
-
-        #mercadoPago:hover {
-            background: linear-gradient(#f8fbff, #f8fbff) padding-box,
-                        linear-gradient(135deg, #009ee3, #0087d1) border-box;
-        }
-
-        @media (max-width: 768px) {
-            .pago-cards {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .pago-card {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            #medios-pago h2 {
-                font-size: 2em;
-            }
-        }
-
-        /* Estilos del Modal */
-        .modal-pago {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            margin: 2% auto;
-            padding: 30px;
-            border-radius: 20px;
-            width: 95%;
-            max-width: 600px;
-            position: relative;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        @keyframes slideIn {
-            from { 
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to { 
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 30px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #666;
-            transition: color 0.3s ease;
-            padding: 5px;
-            border-radius: 50%;
-        }
-
-        .modal-close:hover {
-            color: #ff4757;
-            background: #f1f2f6;
-        }
-
-        #modalTitulo {
-            color: #009ee3;
-            font-size: 28px;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 3px solid #009ee3;
-            padding-bottom: 15px;
-        }
-
-        .highlight {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .highlight p {
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        .payment-info {
-            margin: 25px 0;
-        }
-
-        .payment-field {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 15px 0;
-            transition: all 0.3s ease;
-        }
-
-        .payment-field:hover {
-            border-color: #009ee3;
-            box-shadow: 0 4px 12px rgba(0, 158, 227, 0.1);
-        }
-
-        .payment-field p {
-            font-size: 16px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .payment-value {
-            color: #2d3436;
-            font-family: 'Courier New', monospace;
-            background: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .copy-btn {
-            background: #00b894;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .copy-btn:hover {
-            background: #00a085;
-            transform: scale(1.05);
-        }
-
-        .copy-btn.copied {
-            background: #00b894;
-            animation: pulse 0.3s ease;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .modal-content > p {
-            font-size: 18px;
-            color: #2d3436;
-            margin: 20px 0 15px 0;
-            font-weight: 600;
-        }
-
-        .modal-content ul {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 12px;
-            padding: 20px 25px;
-            margin-top: 15px;
-        }
-
-        .modal-content li {
-            margin: 10px 0;
-            font-size: 15px;
-            line-height: 1.4;
-            color: #856404;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 5% auto;
-                padding: 20px;
-                width: 98%;
-            }
-
-            #modalTitulo {
-                font-size: 24px;
-            }
-
-            .payment-field p {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .payment-value {
-                min-width: auto;
-                text-align: center;
-            }
-
-            .copy-btn {
-                width: 100%;
-                margin-top: 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Métodos de Pago -->
-    <section id="medios-pago">
-        <h2>Métodos de Pago</h2>
-        <div class="pago-cards">
-            <!-- Transferencia -->
-            <div class="pago-card">
-                <img src="https://www.paymentmedia.com/gallery/63e6a6e66cd89pix.jpg" alt="Transferencia bancaria" />
-                <p>Transferencia Bancaria</p>
-            </div>
-
-            <!-- Mercado Pago -->
-            <div id="mercadoPago" class="pago-card" onclick="abrirModalMercadoPago()">
-                <img src="https://i.pinimg.com/736x/7c/72/f0/7c72f0c91c73dc467905979fdc7a7641.jpg" alt="Mercado Pago" />
-                <p>Mercado Pago</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal info de pagos MERCADO PAGO -->
-    <div id="modalMercadoPago" class="modal-pago" role="dialog" aria-modal="true" aria-labelledby="modalTitulo" aria-describedby="modalDesc">
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Cerrar ventana" onclick="cerrarModalMercadoPago()">&times;</button>
-            <h3 id="modalTitulo">💳 Datos de Mercado Pago</h3>
-            <div id="modalDesc">
-                <div class="highlight">
-                    <p><strong>¡Hola!</strong> Aquí tienes todos los datos necesarios para realizar tu pago de forma segura a través de Mercado Pago.</p>
-                </div>
-
-                <div class="payment-info">
-                    <div class="payment-field">
-                        <p><strong>👤 Nombre:</strong> 
-                            <span class="payment-value">Esmeralda Rosa</span>
-                            <button class="copy-btn" onclick="copiarTexto('Esmeralda Rosa', this)">📋 Copiar</button>
-                        </p>
-                    </div>
-                    
-                    <div class="payment-field">
-                        <p><strong>🏷️ Alias:</strong> 
-                            <span class="payment-value">nube.buzo.clip.mp</span>
-                            <button class="copy-btn" onclick="copiarTexto('nube.buzo.clip.mp', this)">📋 Copiar</button>
-                        </p>
-                    </div>
-                    
-                    <div class="payment-field">
-                        <p><strong>🔢 CVU:</strong> 
-                            <span class="payment-value">0000003100072453707270</span>
-                            <button class="copy-btn" onclick="copiarTexto('0000003100072453707270', this)">📋 Copiar</button>
-                        </p>
-                    </div>
-                </div>
-
-                <p><strong>💡 Consejos para tu transferencia:</strong></p>
-                <ul>
-                    <li><strong>Usa el alias</strong> para transferencias más rápidas y seguras</li>
-                    <li><strong>Guarda el comprobante</strong> de la transferencia como respaldo</li>
-                    <li><strong>Incluye tu nombre</strong> en el concepto para identificar el pago</li>
-                    <li><strong>Envíanos una foto</strong> del comprobante por WhatsApp una vez realizado</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function abrirModalMercadoPago() {
-            const modal = document.getElementById('modalMercadoPago');
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Evita scroll del body
-        }
-
-        function cerrarModalMercadoPago() {
-            const modal = document.getElementById('modalMercadoPago');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restaura scroll del body
-        }
-
-        function copiarTexto(texto, boton) {
-            // Usar la API del portapapeles si está disponible
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(texto).then(function() {
-                    mostrarCopiado(boton);
-                }).catch(function() {
-                    // Fallback si falla la API del portapapeles
-                    copiarFallback(texto, boton);
-                });
-            } else {
-                // Método alternativo para navegadores más antiguos
-                copiarFallback(texto, boton);
-            }
-        }
-
-        function copiarFallback(texto, boton) {
-            const textArea = document.createElement('textarea');
-            textArea.value = texto;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                mostrarCopiado(boton);
-            } catch (err) {
-                console.error('Error al copiar:', err);
-                boton.innerHTML = '❌ Error';
-                setTimeout(function() {
-                    boton.innerHTML = '📋 Copiar';
-                }, 2000);
-            }
-            
-            document.body.removeChild(textArea);
-        }
-
-        function mostrarCopiado(boton) {
-            const textoOriginal = boton.innerHTML;
-            boton.innerHTML = '✅ Copiado';
-            boton.classList.add('copied');
-            
-            setTimeout(function() {
-                boton.innerHTML = '📋 Copiar';
-                boton.classList.remove('copied');
-            }, 2000);
-        }
-
-        // Cerrar modal al hacer clic fuera del contenido
-        window.onclick = function(event) {
-            const modal = document.getElementById('modalMercadoPago');
-            if (event.target === modal) {
-                cerrarModalMercadoPago();
-            }
-        }
-
-        // Cerrar modal con la tecla Escape
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modal = document.getElementById('modalMercadoPago');
-                if (modal.style.display === 'block') {
-                    cerrarModalMercadoPago();
-                }
-            }
-        });
-    </script>
-</body>
-</html>
 
   <!-- Footer -->
-    <footer>
-        <p>© 2025 Viaja con Esmeralda</p>
-        <p>
-            <a href="#" onclick="abrirModal('terminos'); return false;">Términos y Condiciones Generales</a>
-            <span> - </span>
-            <a href="#" onclick="abrirModal('privacidad'); return false;">Política de Privacidad</a>
-        </p>
-    </footer>
-
-    <!-- Modal de Términos y Condiciones -->
-    <div id="modalTerminos" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>📋 Términos y Condiciones Generales</h2>
-                <span class="close" onclick="cerrarModal('terminos')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="highlight">
-                    <p><strong>¡Hola! Soy Claude, tu asistente virtual.</strong> Te explico de manera sencilla los términos y condiciones de Viaja con Esmeralda para que sepas exactamente qué esperar de nuestros servicios.</p>
-                </div>
-
-                <h3>🤝 ¿Qué significan estos términos?</h3>
-                <p>Estos términos son como un "acuerdo de buena fe" entre tú y Viaja con Esmeralda. Al usar nuestros servicios, ambas partes sabemos qué esperar del otro.</p>
-
-                <h3>✈️ Servicios que ofrecemos</h3>
-                <p>Viaja con Esmeralda te ayuda a:</p>
-                <ul>
-                    <li><strong>Planificar viajes personalizados</strong> según tus gustos y presupuesto</li>
-                    <li><strong>Gestionar reservas</strong> de vuelos, hoteles y actividades</li>
-                    <li><strong>Asesorarte</strong> sobre destinos, documentación y recomendaciones</li>
-                    <li><strong>Brindarte soporte</strong> antes, durante y después de tu viaje</li>
-                </ul>
-
-                <h3>💳 Política de pagos y cancelaciones</h3>
-                <div class="info-box">
-                    <p><strong>Importante:</strong> Los precios pueden variar según disponibilidad y temporada. Te informaremos siempre antes de confirmar cualquier reserva.</p>
-                </div>
-                <ul>
-                    <li><strong>Reservas:</strong> Se requiere una seña del 30% para confirmar tu viaje</li>
-                    <li><strong>Cancelaciones:</strong> Hasta 15 días antes: 100% reembolso. Menos de 15 días: según políticas del proveedor</li>
-                    <li><strong>Modificaciones:</strong> Posibles según disponibilidad, pueden aplicar cargos adicionales</li>
-                </ul>
-
-                <h3>🛡️ Responsabilidades</h3>
-                <p><strong>Viaja con Esmeralda se compromete a:</strong></p>
-                <ul>
-                    <li>Brindarte información veraz y actualizada</li>
-                    <li>Gestionar tus reservas de manera profesional</li>
-                    <li>Estar disponible para consultas y emergencias</li>
-                    <li>Respetar tus datos personales</li>
-                </ul>
-
-                <p><strong>Como viajero, te pedimos que:</strong></p>
-                <ul>
-                    <li>Proporciones información correcta y completa</li>
-                    <li>Tengas documentación vigente (pasaporte, visas, etc.)</li>
-                    <li>Respetes las políticas de aerolíneas y hoteles</li>
-                    <li>Comuniques cualquier cambio a tiempo</li>
-                </ul>
-
-                <h3>⚠️ Limitaciones importantes</h3>
-                <div class="highlight">
-                    <p>Como agencia, actuamos como intermediarios. No somos responsables por:</p>
-                    <ul>
-                        <li>Cambios de itinerario por parte de aerolíneas o proveedores</li>
-                        <li>Condiciones climáticas adversas</li>
-                        <li>Situaciones de fuerza mayor (pandemias, conflictos, etc.)</li>
-                        <li>Pérdida de documentos personales</li>
-                    </ul>
-                </div>
-
-                <h3>📞 Resolución de conflictos</h3>
-                <p>Si tienes algún problema, hablemos primero. La mayoría de situaciones se resuelven con buena comunicación. En caso de disputas, se aplicará la legislación argentina.</p>
-
-                <div class="info-box">
-                    <p><strong>Recuerda:</strong> Estos términos se actualizan periódicamente. Te notificaremos de cualquier cambio importante.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Política de Privacidad -->
-    <div id="modalPrivacidad" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🔒 Política de Privacidad</h2>
-                <span class="close" onclick="cerrarModal('privacidad')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="highlight">
-                    <p><strong>Tu privacidad es importante para nosotros.</strong> Como Claude, tu asistente virtual, te explico de manera clara cómo Viaja con Esmeralda cuida y protege tu información personal.</p>
-                </div>
-
-                <h3>📊 ¿Qué información recopilamos?</h3>
-                <p>Para brindarte el mejor servicio, necesitamos algunos datos:</p>
-                
-                <p><strong>Información básica:</strong></p>
-                <ul>
-                    <li>Nombre completo y documento de identidad</li>
-                    <li>Email y teléfono de contacto</li>
-                    <li>Fecha de nacimiento (para tarifas especiales y documentación)</li>
-                    <li>Dirección de residencia</li>
-                </ul>
-
-                <p><strong>Información de viaje:</strong></p>
-                <ul>
-                    <li>Destinos de interés y preferencias</li>
-                    <li>Fechas de viaje flexibles</li>
-                    <li>Presupuesto aproximado</li>
-                    <li>Necesidades especiales (alergias, movilidad, etc.)</li>
-                </ul>
-
-                <h3>🎯 ¿Cómo usamos tu información?</h3>
-                <div class="info-box">
-                    <p>Usamos tus datos exclusivamente para mejorar tu experiencia de viaje:</p>
-                </div>
-                <ul>
-                    <li><strong>Personalización:</strong> Crear propuestas de viaje a tu medida</li>
-                    <li><strong>Comunicación:</strong> Enviarte confirmaciones, actualizaciones e información útil</li>
-                    <li><strong>Gestión:</strong> Procesar reservas y coordinar con proveedores</li>
-                    <li><strong>Soporte:</strong> Asistirte durante tu viaje y resolver consultas</li>
-                    <li><strong>Mejora:</strong> Analizar preferencias para mejorar nuestros servicios</li>
-                </ul>
-
-                <h3>🤝 ¿Compartimos tu información?</h3>
-                <p><strong>Solo cuando es necesario para tu viaje:</strong></p>
-                <ul>
-                    <li><strong>Aerolíneas y hoteles:</strong> Para hacer tus reservas</li>
-                    <li><strong>Agencias locales:</strong> Para actividades y traslados</li>
-                    <li><strong>Seguros de viaje:</strong> Si contratas este servicio</li>
-                    <li><strong>Autoridades:</strong> Solo si lo requiere la ley</li>
-                </ul>
-
-                <div class="highlight">
-                    <p><strong>Nunca vendemos tu información</strong> a terceros con fines comerciales. Tu confianza es nuestro activo más valioso.</p>
-                </div>
-
-                <h3>🔐 ¿Cómo protegemos tu información?</h3>
-                <p>Implementamos múltiples medidas de seguridad:</p>
-                <ul>
-                    <li><strong>Encriptación:</strong> Todos los datos se transmiten de forma segura</li>
-                    <li><strong>Acceso limitado:</strong> Solo personal autorizado puede ver tu información</li>
-                    <li><strong>Respaldos seguros:</strong> Copias de seguridad en servidores protegidos</li>
-                    <li><strong>Actualizaciones:</strong> Sistemas siempre actualizados contra amenazas</li>
-                </ul>
-
-                <h3>🍪 Cookies y navegación</h3>
-                <p>Nuestro sitio web usa cookies para:</p>
-                <ul>
-                    <li>Recordar tus preferencias de búsqueda</li>
-                    <li>Mejorar la funcionalidad del sitio</li>
-                    <li>Analizar el tráfico web (datos anónimos)</li>
-                </ul>
-                <p>Puedes desactivar las cookies en tu navegador, aunque esto puede afectar algunas funciones.</p>
-
-                <h3>⚖️ Tus derechos</h3>
-                <div class="info-box">
-                    <p><strong>Tienes control total sobre tu información:</strong></p>
-                </div>
-                <ul>
-                    <li><strong>Acceso:</strong> Ver qué información tenemos sobre ti</li>
-                    <li><strong>Corrección:</strong> Actualizar datos incorrectos</li>
-                    <li><strong>Eliminación:</strong> Solicitar que borremos tu información</li>
-                    <li><strong>Portabilidad:</strong> Llevarte tu información a otro servicio</li>
-                    <li><strong>Oposición:</strong> Rechazar ciertos usos de tus datos</li>
-                </ul>
-
-                <h3>📧 Comunicaciones</h3>
-                <p>Te enviaremos:</p>
-                <ul>
-                    <li><strong>Comunicaciones esenciales:</strong> Confirmaciones, cambios de vuelos (no puedes darte de baja)</li>
-                    <li><strong>Marketing:</strong> Ofertas especiales y novedades (puedes darte de baja cuando quieras)</li>
-                </ul>
-
-                <h3>👶 Menores de edad</h3>
-                <p>No recopilamos información de menores de 13 años sin autorización parental. Para viajes familiares, los padres son responsables de proporcionar la información necesaria.</p>
-
-                <h3>🌍 Transferencias internacionales</h3>
-                <p>Algunos proveedores pueden estar fuera de Argentina. Nos aseguramos de que cumplan con estándares de protección similares a los nuestros.</p>
-
-                <div class="highlight">
-                    <p><strong>¿Preguntas sobre privacidad?</strong> Contáctanos en cualquier momento. Estamos aquí para aclarar todas tus dudas y garantizar que te sientas cómodo con el manejo de tu información.</p>
-                </div>
-
-                <p><strong>Última actualización:</strong> Enero 2025</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function abrirModal(tipo) {
-            const modal = document.getElementById('modal' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Previene scroll del fondo
-        }
-
-        function cerrarModal(tipo) {
-            const modal = document.getElementById('modal' + tipo.charAt(0).toUpperCase() + tipo.slice(1));
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restaura scroll del fondo
-        }
-
-        // Cerrar modal al hacer clic fuera de él
-        window.onclick = function(event) {
-            const modalTerminos = document.getElementById('modalTerminos');
-            const modalPrivacidad = document.getElementById('modalPrivacidad');
-            
-            if (event.target === modalTerminos) {
-                cerrarModal('terminos');
-            }
-            if (event.target === modalPrivacidad) {
-                cerrarModal('privacidad');
-            }
-        }
-
-        // Cerrar modal con la tecla Escape
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                cerrarModal('terminos');
-                cerrarModal('privacidad');
-            }
-        });
-    </script>
-</body>
-</html>
+  <footer>
+    <p>&copy; 2024 Esmeralda Rosa - Viajes a Brasil</p>
+    <p>Todos los derechos reservados | 
+      <a href="https://wa.me/541141706765" target="_blank">Contactanos por WhatsApp</a>
+    </p>
+  </footer>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
   <script>
-    // Inicialización de flatpickr para calendarios
-    const fechaIdaPicker = flatpickr("#fechaIda", {
-      minDate: "today",
-      dateFormat: "Y-m-d",
-      onChange: function(selectedDates, dateStr, instance) {
-        if (dateStr) {
-          fechaVueltaPicker.set('minDate', dateStr);
-        }
-      }
-    });
-
-    const fechaVueltaPicker = flatpickr("#fechaVuelta", {
-      minDate: "today",
-      dateFormat: "Y-m-d",
-    });
-
-    // Validación del formulario de búsqueda
-    const form = document.getElementById('searchForm');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      // Reset errores
-      document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
-
-      const nombre = form.nombre.value.trim();
-      const destino = form.destino.value;
-      const fechaIda = form.fechaIda.value;
-      const fechaVuelta = form.fechaVuelta.value;
-
-      let valid = true;
-
-      if (!nombre) {
-        document.getElementById('errorNombre').style.display = 'block';
-        valid = false;
-      }
-      if (!destino) {
-        document.getElementById('errorDestino').style.display = 'block';
-        valid = false;
-      }
-      if (!fechaIda) {
-        document.getElementById('errorFechaIda').style.display = 'block';
-        valid = false;
-      }
-      if (!fechaVuelta) {
-        document.getElementById('errorFechaVuelta').style.display = 'block';
-        valid = false;
-      }
-      if (fechaIda && fechaVuelta && fechaVuelta < fechaIda) {
-        document.getElementById('errorFechaVuelta').textContent = 'La fecha de vuelta debe ser posterior a la fecha de ida';
-        document.getElementById('errorFechaVuelta').style.display = 'block';
-        valid = false;
-      } else {
-        document.getElementById('errorFechaVuelta').textContent = 'Por favor selecciona una fecha de vuelta válida';
-      }
-
-      if (!valid) return;
-
-      // Formatear mensaje para WhatsApp
-      const telefono = '5491141706765';
-      const mensaje = `Hola Esmeralda, soy ${encodeURIComponent(nombre)}. Quiero reservar para ${encodeURIComponent(destino)}, desde el ${encodeURIComponent(fechaIda)} hasta el ${encodeURIComponent(fechaVuelta)}.`;
-      const urlWhatsApp = `https://wa.me/${telefono}?text=${mensaje}`;
-      window.open(urlWhatsApp, '_blank');
-    });
-
-    // Convertidor de moneda
-    const modal = document.getElementById("currencyModal");
-    const btn = document.getElementById("openModalBtn");
-    const span = document.getElementsByClassName("close")[0];
-
-    btn.onclick = function () {
-      modal.style.display = "block";
-    }
-
-    span.onclick = function () {
-      modal.style.display = "none";
-      clearFields();
-    }
-
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-        clearFields();
-      }
-    }
-
-    function convert() {
-      const ars = parseFloat(document.getElementById("arsInput").value);
-      const exchangeRate = 0.025;
-      if (!isNaN(ars)) {
-        const brl = (ars * exchangeRate).toFixed(2);
-        document.getElementById("result").innerText = `R$ ${brl} BRL`;
-      } else {
-        document.getElementById("result").innerText = "Por favor ingresa un valor válido.";
-      }
-    }
-
-    function clearFields() {
-      document.getElementById("arsInput").value = "";
-      document.getElementById("result").innerText = "";
-    }
-
-    // Datos de alojamientos para galería
-    const alojamiento = {
-      1: {
-        titulo: "Departamento frente al mar",
-        imagenes: [
-          "https://scontent.faep8-1.fna.fbcdn.net/v/t39.30808-6/496148472_4034742506783447_4759518565485461994_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEhlKXHYujFQIFlwjx8LQWHtAW-bh6YuXa0Bb5uHpi5dmOaYcVE7RA3UUHP9HuvH4XDsNNK27ZaG8v9bo81UvHj&_nc_ohc=5jovSSuL6DIQ7kNvwEsPsd6&_nc_oc=AdnDreVQPjEjmi4WmGLOQLDQ3tmjtRBIyVkRgr7uPOHGbPWFkv8zcjjwq38XcPBnP0s&_nc_zt=23&_nc_ht=scontent.faep8-1.fna&_nc_gid=MEWTCcO8C_t6651kiVcbXw&oh=00_AfUT_Gk64jvCsTdgfNglKL_H9iNXoecJ4Q7N04t2X6ngHw&oe=689AC261",
-          "https://example.com/dep1_2.jpg",
-          "https://example.com/dep1_3.jpg"
-        ]
-      },
-      2: {
-        titulo: "Apart para 4 personas",
-        imagenes: ["alojamiento2.jpg", "alojamiento2_2.jpg", "alojamiento2_3.jpg"]
-      },
-      3: {
-        titulo: "Cabaña familiar",
-        imagenes: ["alojamiento3.jpg", "alojamiento3_2.jpg", "alojamiento3_3.jpg"]
-      },
-      4: {
-        titulo: "Loft moderno en el centro",
-        imagenes: ["alojamiento4.jpg", "alojamiento4_2.jpg", "alojamiento4_3.jpg"]
-      },
-      5: {
-        titulo: "Casa con jardín y piscina",
-        imagenes: ["alojamiento5.jpg", "alojamiento5_2.jpg", "alojamiento5_3.jpg"]
-      },
-      6: {
-        titulo: "Departamento con vista al mar",
-        imagenes: ["alojamiento6.jpg", "alojamiento6_2.jpg", "alojamiento6_3.jpg"]
-      },
-      7: {
-        titulo: "Casa cerca de la playa",
-        imagenes: ["alojamiento7.jpg", "alojamiento7_2.jpg", "alojamiento7_3.jpg"]
-      },
-      8: {
-        titulo: "Apartamento céntrico",
-        imagenes: ["alojamiento8.jpg", "alojamiento8_2.jpg", "alojamiento8_3.jpg"]
-      },
-      9: {
-        titulo: "Loft para parejas",
-        imagenes: ["alojamiento9.jpg", "alojamiento9_2.jpg", "alojamiento9_3.jpg"]
-      },
-      10: {
-        titulo: "Casa con piscina privada",
-        imagenes: ["alojamiento10.jpg", "alojamiento10_2.jpg", "alojamiento10_3.jpg"]
-      },
-      11: {
-        titulo: "Departamento amplio y luminoso",
-        imagenes: ["alojamiento11.jpg", "alojamiento11_2.jpg", "alojamiento11_3.jpg"]
-      },
-      12: {
-        titulo: "Monoambiente moderno",
-        imagenes: ["alojamiento12.jpg", "alojamiento12_2.jpg", "alojamiento12_3.jpg"]
-      },
-      13: {
-        titulo: "Casa con terraza y parrilla",
-        imagenes: ["alojamiento13.jpg", "alojamiento13_2.jpg", "alojamiento13_3.jpg"]
-      },
-      14: {
-        titulo: "Apart hotel con servicios",
-        imagenes: ["alojamiento14.jpg", "alojamiento14_2.jpg", "alojamiento14_3.jpg"]
-      },
-      15: {
-        titulo: "Departamento con balcón",
-        imagenes: ["alojamiento15.jpg", "alojamiento15_2.jpg", "alojamiento15_3.jpg"]
-      },
-      16: {
-        titulo: "Loft cerca de restaurantes",
-        imagenes: ["alojamiento16.jpg", "alojamiento16_2.jpg", "alojamiento16_3.jpg"]
-      }
+    // Datos de las imágenes por alojamiento
+    const accommodationImages = {
+      1: [
+        { src: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Exterior - Casa Vista al Mar' },
+        { src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Sala de estar' },
+        { src: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Dormitorio principal' },
+        { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Cocina' }
+      ],
+      2: [
+        { src: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Exterior del edificio - Apartamento Moderno' },
+        { src: 'https://images.unsplash.com/photo-1556020685-ae41abfc9365?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Sala moderna' },
+        { src: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Dormitorio' },
+        { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Cocina integrada' }
+      ],
+      3: [
+        { src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Villa exterior - Villa Tropical' },
+        { src: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Sala espaciosa' },
+        { src: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Suite principal' },
+        { src: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Piscina y jardín' }
+      ],
+      4: [
+        { src: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Estudio completo - Estudio Acogedor' },
+        { src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Área de descanso' },
+        { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Kitchenette' },
+        { src: 'https://images.unsplash.com/photo-1584622781564-1d987ba6daa3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Baño moderno' }
+      ],
+      5: [
+        { src: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Penthouse vista - Penthouse Deluxe' },
+        { src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Sala de lujo' },
+        { src: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Master suite' },
+        { src: 'https://images.unsplash.com/photo-1574180566232-aaad1b5b8450?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Terraza panorámica' }
+      ],
+      6: [
+        { src: 'https://images.unsplash.com/photo-1587061949409-02df41d5e562?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Casa familiar - Casa Familiar' },
+        { src: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Sala familiar' },
+        { src: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Habitación infantil' },
+        { src: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', alt: 'Patio trasero' }
+      ]
     };
 
-    // Funciones para modales de galería
-    function abrirModal(id) {
-      const modalGaleria = document.getElementById('modal');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalImages = document.getElementById('modalImages');
+    // Variables globales para el visor de imágenes
+    let currentAccommodation = null;
+    let currentImageIndex = 0;
 
-      const alojamiento = alojamientos[id];
-      if (!alojamiento) return;
+    // Inicialización cuando carga la página
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeDatePickers();
+      initializeEventListeners();
+    });
 
-      modalTitle.textContent = alojamiento.titulo;
-      modalImages.innerHTML = '';
-
-      alojamiento.imagenes.forEach((src, index) => {
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `${alojamiento.titulo} imagen ${index + 1}`;
-        img.tabIndex = 0;
-        img.style.userSelect = 'none';
-        img.addEventListener('click', () => abrirModalZoom(src));
-        img.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            abrirModalZoom(src);
-            e.preventDefault();
-          }
-        });
-        modalImages.appendChild(img);
+    // Inicializar calendarios
+    function initializeDatePickers() {
+      const checkinPicker = flatpickr("#checkin", {
+        locale: "es",
+        dateFormat: "d/m/Y",
+        minDate: "today",
+        onChange: function(selectedDates, dateStr, instance) {
+          checkoutPicker.set('minDate', selectedDates[0] || "today");
+        }
       });
 
-      modalGaleria.style.display = 'block';
-      modalGaleria.setAttribute('aria-hidden', 'false');
-      modalGaleria.focus();
+      const checkoutPicker = flatpickr("#checkout", {
+        locale: "es", 
+        dateFormat: "d/m/Y",
+        minDate: "today"
+      });
     }
 
-    function cerrarModal() {
-      const modalGaleria = document.getElementById('modal');
-      modalGaleria.style.display = 'none';
-      modalGaleria.setAttribute('aria-hidden', 'true');
+    // Inicializar event listeners
+    function initializeEventListeners() {
+      // Formulario de búsqueda
+      document.getElementById('searchForm').addEventListener('submit', handleSearch);
+      
+      // Convertidor de moneda
+      document.getElementById('openModalBtn').addEventListener('click', openCurrencyModal);
+      
+      // Cerrar modales al hacer click fuera
+      window.addEventListener('click', function(event) {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+          if (event.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+
+      // Navegación suave
+      document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+
+      // Teclas del visor de imágenes
+      document.addEventListener('keydown', function(e) {
+        if (document.getElementById('imageViewer').style.display === 'block') {
+          if (e.key === 'Escape') {
+            closeImageViewer();
+          } else if (e.key === 'ArrowLeft') {
+            previousImage();
+          } else if (e.key === 'ArrowRight') {
+            nextImage();
+          }
+        }
+      });
     }
 
-    function abrirModalZoom(src) {
-      const modalZoom = document.getElementById('modalZoom');
-      const zoomImg = document.getElementById('zoomImg');
-
-      zoomImg.src = src;
-      modalZoom.style.display = 'flex';
-      modalZoom.setAttribute('aria-hidden', 'false');
-      modalZoom.focus();
+    // Manejo del formulario de búsqueda
+    function handleSearch(e) {
+      e.preventDefault();
+      const checkin = document.getElementById('checkin').value;
+      const checkout = document.getElementById('checkout').value;
+      
+      // Limpiar errores previos
+      document.getElementById('checkinError').style.display = 'none';
+      document.getElementById('checkoutError').style.display = 'none';
+      
+      let hasErrors = false;
+      
+      if (!checkin) {
+        document.getElementById('checkinError').style.display = 'block';
+        hasErrors = true;
+      }
+      
+      if (!checkout) {
+        document.getElementById('checkoutError').style.display = 'block';
+        hasErrors = true;
+      }
+      
+      if (!hasErrors) {
+        const huespedes = document.getElementById('huespedes').value;
+        const message = `Hola Esmeralda, busco alojamiento en Canasvieiras del ${checkin} al ${checkout} para ${huespedes} huésped(es).`;
+        const whatsappUrl = `https://wa.me/541141706765?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+      }
     }
 
-    function cerrarModalZoom() {
-      const modalZoom = document.getElementById('modalZoom');
-      modalZoom.style.display = 'none';
-      modalZoom.setAttribute('aria-hidden', 'true');
+    // Funciones de modales de alojamientos
+    function openAccommodationModal(id) {
+      const modal = document.getElementById('modal' + id);
+      if (modal) {
+        modal.style.display = 'block';
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
     }
 
+    function closeAccommodationModal(id) {
+      const modal = document.getElementById('modal' + id);
+      if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Funciones del visor de imágenes
+    function openImageViewer(imgElement, accommodationId, imageIndex) {
+      currentAccommodation = accommodationId;
+      currentImageIndex = imageIndex;
+      
+      const viewer = document.getElementById('imageViewer');
+      const viewerImage = document.getElementById('viewerImage');
+      const imageTitle = document.getElementById('imageTitle');
+      const imageCounter = document.getElementById('imageCounter');
+      
+      const images = accommodationImages[accommodationId];
+      const currentImage = images[imageIndex];
+      
+      viewerImage.src = currentImage.src;
+      viewerImage.alt = currentImage.alt;
+      imageTitle.textContent = currentImage.alt;
+      imageCounter.textContent = `${imageIndex + 1} / ${images.length}`;
+      
+      viewer.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      
+      // Precargar imágenes adyacentes
+      preloadAdjacentImages();
+    }
+
+    function closeImageViewer() {
+      document.getElementById('imageViewer').style.display = 'none';
+      document.body.style.overflow = 'auto';
+      currentAccommodation = null;
+      currentImageIndex = 0;
+    }
+
+    function previousImage() {
+      if (currentAccommodation === null) return;
+      
+      const images = accommodationImages[currentAccommodation];
+      currentImageIndex = currentImageIndex > 0 ? currentImageIndex - 1 : images.length - 1;
+      updateViewerImage();
+    }
+
+    function nextImage() {
+      if (currentAccommodation === null) return;
+      
+      const images = accommodationImages[currentAccommodation];
+      currentImageIndex = currentImageIndex < images.length - 1 ? currentImageIndex + 1 : 0;
+      updateViewerImage();
+    }
+
+    function updateViewerImage() {
+      const images = accommodationImages[currentAccommodation];
+      const currentImage = images[currentImageIndex];
+      
+      const viewerImage = document.getElementById('viewerImage');
+      const imageTitle = document.getElementById('imageTitle');
+      const imageCounter = document.getElementById('imageCounter');
+      
+      viewerImage.style.opacity = '0';
+      
+      setTimeout(() => {
+        viewerImage.src = currentImage.src;
+        viewerImage.alt = currentImage.alt;
+        imageTitle.textContent = currentImage.alt;
+        imageCounter.textContent = `${currentImageIndex + 1} / ${images.length}`;
+        viewerImage.style.opacity = '1';
+      }, 150);
+      
+      preloadAdjacentImages();
+    }
+
+    function preloadAdjacentImages() {
+      if (currentAccommodation === null) return;
+      
+      const images = accommodationImages[currentAccommodation];
+      const prevIndex = currentImageIndex > 0 ? currentImageIndex - 1 : images.length - 1;
+      const nextIndex = currentImageIndex < images.length - 1 ? currentImageIndex + 1 : 0;
+      
+      // Precargar imagen anterior y siguiente
+      [prevIndex, nextIndex].forEach(index => {
+        const img = new Image();
+        img.src = images[index].src;
+      });
+    }
+
+    // Funciones del convertidor de moneda
+    function openCurrencyModal() {
+      document.getElementById('currencyModal').style.display = 'block';
+    }
+
+    function closeCurrencyModal() {
+      document.getElementById('currencyModal').style.display = 'none';
+      document.getElementById('arsAmount').value = '';
+      document.getElementById('result').innerHTML = '';
+    }
+
+    async function convertCurrency() {
+      const amount = document.getElementById('arsAmount').value;
+      const resultDiv = document.getElementById('result');
+      
+      if (!amount || amount <= 0) {
+        resultDiv.innerHTML = '<span style="color: red;">Por favor ingresa una cantidad válida</span>';
+        return;
+      }
+      
+      resultDiv.innerHTML = 'Convirtiendo...';
+      
+      try {
+        // Simulamos una tasa de cambio (en producción usarías una API real)
+        const exchangeRate = 0.0034; // Ejemplo: 1 ARS = 0.0034 BRL
+        const convertedAmount = (parseFloat(amount) * exchangeRate).toFixed(2);
+        
+        resultDiv.innerHTML = `
+          <div style="color: #00796b; font-size: 1.1rem;">
+            💰 ARS ${amount} = R$ ${convertedAmount}
+            <br><small style="color: #666;">Tasa aproximada: 1 ARS = ${exchangeRate} BRL</small>
+          </div>
+        `;
+      } catch (error) {
+        resultDiv.innerHTML = '<span style="color: red;">Error al convertir. Intenta nuevamente.</span>';
+      }
+    }
+
+    // Funciones del modal de pagos
+    function openPaymentModal() {
+      document.getElementById('paymentModal').style.display = 'block';
+    }
+
+    function closePaymentModal() {
+      document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    // Animación suave para las cards
+    function observeCards() {
+      const cards = document.querySelectorAll('.card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+      
+      cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.6s ease';
+        observer.observe(card);
+      });
+    }
+
+    // Ejecutar animación cuando se carga la página
+    window.addEventListener('load', observeCards);
+  </script>
+</body>
+</html>
     
-    
+
